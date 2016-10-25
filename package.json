@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "description": "Easy interaction with monzo-api",
   "main": "dist/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dist": "babel src --out-dir dist",
+    "prepublish": "npm run dist"
   },
   "author": "Joao Lopes <jocolopes@gmail.com> (http://joaolopes.info)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0"
+  }
 }
