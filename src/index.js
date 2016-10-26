@@ -4,6 +4,13 @@ import request from 'superagent';
 const AUTH_URL = 'https://auth.getmondo.co.uk/';
 const API_URL = 'https://api.monzo.com/';
 
+const REQUEST_TO_METHOD = {
+    GET: 'get',
+    POST: 'post',
+    PATCH: 'patch',
+    DELETE: 'del'
+};
+
 /** Class that contains the api */
 class MonzoApi {
     /**
@@ -304,8 +311,76 @@ class MonzoApi {
     }
 
     /**
+     * Webhooks allow your application to receive real-time, push notification of events in an account.
+     * Each time a matching event occurs, monzo will make a POST call to the URL you provide.
+     * If the call fails, monzo will retry up to a maximum of 5 attempts, with exponential backoff.
+     * @param {string} accountId - The account id to add the webhook to
+     * @param {string} url - The url to send notifications to
+     * @return {Promise.<object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    registerWebhook(accountId, url) {
+        const formData = {
+            account_id: accountId,
+            url
+        };
+        return this.makeRequest('POST', 'webhooks', formData);
+    }
+
+    /**
+     * List the webhooks your application has registered on an account.
+     * @param {string} accountId - The account to list registered webhooks for
+     * @return {Promise.<object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    webhooks(accountId) {
+        const formData = {
+            account_id: accountId
+        };
+        return this.makeRequest('GET', `webhooks?${qs.stringify(formData)}`);
+    }
+
+    /**
+     * Delete a webhook
+     * @param {string} webhookId - The webhook to delete
+     * @return {Promise.<object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    deleteWebhook(webhookId) {
+        return this.makeRequest('DELETE', `webhooks/${webhookId}`);
+    }
+
+    /**
+     * Register attachment
+     * @param {string} externalId - The id of the transaction to associate the attachment with.
+     * @param {string} fileUrl - The URL of the uploaded attachment.
+     * @param {string} fileType - The content type of the attachment. e.g. "image/png"
+     * @return {Promise.<object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    registerAttachment(externalId, fileUrl, fileType) {
+        const formData = {
+            external_id: externalId,
+            file_url: fileUrl,
+            file_type: fileType
+        };
+        return this.makeRequest('POST', 'attachment/register', formData);
+    }
+
+
+    /**
+     * Deregister attachment
+     * @param {string} attachmentId - The id of the attachment to deregister.
+     * @return {Promise.<object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    deregisterAttachment(attachmentId) {
+        return this.makeRequest('POST', 'attachment/deregister', { id: attachmentId });
+    }
+
+    /**
      * Makes any request to the Monzo API
-     * @param {string} requestType - Can be 'GET', 'POST' or 'PATCH'
+     * @param {string} requestType - Can be 'GET', 'POST', 'PATCH' or 'DELETE'
      * @param {string} requestEndpoint - The path of the API url. e.g. 'ping/whoami'
      * @param {object} requestData - Any data that needs to be sent to the server
      * @param {boolean} [useBearer=true] - Whether to insert the accessToken into the request header or not
@@ -315,7 +390,7 @@ class MonzoApi {
     makeRequest(requestType, requestEndpoint, requestData, useBearer = true) {
         return new Promise((resolve, reject) => {
             const url = `${API_URL}${requestEndpoint}`;
-            const req = request[requestType.toLowerCase()](url);
+            const req = request[REQUEST_TO_METHOD[requestType]](url);
             if (requestType === 'GET') {
                 req.set('Content-type', 'application/json');
             }
