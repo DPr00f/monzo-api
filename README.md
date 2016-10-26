@@ -61,6 +61,7 @@ monzoApi.authenticate(code, 'exampleStateToken')
     * [.registerWebhook(accountId, url)](#MonzoApi+registerWebhook) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.webhooks(accountId)](#MonzoApi+webhooks) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.deleteWebhook(webhookId)](#MonzoApi+deleteWebhook) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.uploadImage(file, fileName, fileType)](#MonzoApi+uploadImage) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.registerAttachment(externalId, fileUrl, fileType)](#MonzoApi+registerAttachment) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.deregisterAttachment(attachmentId)](#MonzoApi+deregisterAttachment) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.makeRequest(requestType, requestEndpoint, requestData, [useBearer])](#MonzoApi+makeRequest) ⇒ <code>Promise.&lt;object, Error&gt;</code>
@@ -345,6 +346,22 @@ Delete a webhook
 | --- | --- | --- |
 | webhookId | <code>string</code> | The webhook to delete |
 
+<a name="MonzoApi+uploadImage"></a>
+
+### monzoApi.uploadImage(file, fileName, fileType) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+Hosts an image in Monzo S3 Bucket.
+Will try to gzip the contents before uploading it
+
+**Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
+**Returns**: <code>Promise.&lt;object, Error&gt;</code> - A promise that returns an object if resolved,
+                                  or an Error if rejected.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| file | <code>string</code> &#124; <code>Buffer</code> | Can be the file absolute location, a base64 representation or the Buffer content of an image |
+| fileName | <code>string</code> | A meaningful name for the image |
+| fileType | <code>string</code> | The mime type of the image e.g. image/png |
+
 <a name="MonzoApi+registerAttachment"></a>
 
 ### monzoApi.registerAttachment(externalId, fileUrl, fileType) ⇒ <code>Promise.&lt;object, Error&gt;</code>
@@ -388,4 +405,3 @@ Makes any request to the Monzo API
 | requestEndpoint | <code>string</code> |  | The path of the API url. e.g. 'ping/whoami' |
 | requestData | <code>object</code> |  | Any data that needs to be sent to the server |
 | [useBearer] | <code>boolean</code> | <code>true</code> | Whether to insert the accessToken into the request header or not |
-

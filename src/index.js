@@ -1,4 +1,6 @@
 import qs from 'qs';
+import fs from 'fs';
+import zlib from 'zlib';
 import request from 'superagent';
 
 const AUTH_URL = 'https://auth.getmondo.co.uk/';
@@ -9,6 +11,56 @@ const REQUEST_TO_METHOD = {
     POST: 'post',
     PATCH: 'patch',
     DELETE: 'del'
+};
+
+const gzipBuffer = (buffer) => {
+    return new Promise((resolve, reject) => {
+        zlib.gzip(buffer, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+const tryToGZipAndResolve = (data, resolve) => {
+    if (data.buffer) {
+        gzipBuffer(data.buffer)
+            .then((gzipData) => {
+                data.buffer = gzipData;
+                data.encoding = 'gzip';
+                resolve(data);
+            })
+            .catch((err) => {
+                console.error("Couldn't gzip the buffer", err);
+                resolve(data);
+            });
+    }
+};
+
+const getFileBuffer = (file) => {
+    return new Promise((resolve, reject) => {
+        const data = {};
+        if (file instanceof Buffer) {
+            data.buffer = file;
+        } else if (typeof file === 'string') {
+            if (file.indexOf('data:image') > -1 && file.indexOf('base64') > -1) {
+                data.buffer = new Buffer(file.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+            } else {
+                fs.readFile(file, (err, buffer) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        data.buffer = buffer;
+                        tryToGZipAndResolve(data, resolve);
+                    }
+                });
+            }
+        }
+        tryToGZipAndResolve(data, resolve);
+    });
 };
 
 /** Class that contains the api */
@@ -348,6 +400,51 @@ class MonzoApi {
      */
     deleteWebhook(webhookId) {
         return this.makeRequest('DELETE', `webhooks/${webhookId}`);
+    }
+
+    /**
+     * Hosts an image in Monzo S3 Bucket.
+     * Will try to gzip the contents before uploading it
+     * @param {string|Buffer} file - Can be the file absolute location, a base64 representation or the Buffer content of an image
+     * @param {string} fileName - A meaningful name for the image
+     * @param {string} fileType - The mime type of the image e.g. image/png
+     * @return {Promise.<object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    uploadImage(file, fileName, fileType) {
+        return new Promise((resolve, reject) => {
+            const formData = {
+                file_name: fileName,
+                file_type: fileType
+            };
+            let fileUrl;
+            let uploadUrl;
+            this.makeRequest('POST', 'attachment/upload', formData)
+                .then((res) => {
+                    fileUrl = res.file_url;
+                    uploadUrl = res.upload_url;
+                    return getFileBuffer(file);
+                })
+                .then((obj) => {
+                    const req = request.put(uploadUrl)
+                                       .set('Content-Type', fileType);
+                    if (obj.encoding) {
+                        req.set('Content-Encoding', obj.encoding);
+                    }
+                    req.send(obj.buffer)
+                        .end((err) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({
+                                    file_url: fileUrl
+                                });
+                            }
+                        });
+
+                })
+                .catch(reject);
+        });
     }
 
     /**
