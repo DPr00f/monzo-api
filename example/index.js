@@ -34,6 +34,20 @@ monzoApi.authenticate(code, 'exampleStateToken')
         .then(function() {
             return monzoApi.ping();
         })
+        .then(function() {
+            return monzoApi.accounts();
+        })
+        .then(function(res) {
+            var acc = res.accounts[0].id;
+            return monzoApi.feedItem(acc, 'http://google.com', 'basic', {
+                title: 'My custom item',
+                image_url: 'http://image.flaticon.com/teams/1-freepik.jpg',
+                background_color: '#FCF1EE',
+                body_color: '#FCF1EE',
+                title_color: '#333',
+                body: 'Some body text to display'
+            });
+        })
         .then(function(res) {
             console.log(res);
         })

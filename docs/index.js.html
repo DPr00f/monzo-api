@@ -236,13 +236,104 @@ class MonzoApi {
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    accounts(opts = {}) {
-        return this.makeRequest('GET', 'accounts', opts);
+    accounts() {
+        return this.makeRequest('GET', 'accounts');
+    }
+
+    /**
+     * Reads the balance
+     * @param {string} accountId - The account id to check the balance in.
+     * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    balance(accountId) {
+        return this.makeRequest('GET', 'balance', { account_id: accountId });
+    }
+
+    /**
+     * Returns an individual transaction, fetched by its id.
+     * @param {string} transactionId - The transaction id to check details in
+     * @param {boolean} [expanded=true] - Whether the details for merchant are expanded or not
+     * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    transaction(transactionId, expanded = true) {
+        const query = {};
+        if (expanded) {
+            query['expand[]'] = 'merchant';
+        }
+        return this.makeRequest('GET', `transactions/${transactionId}?${qs.stringify(query)}`);
+    }
+
+    /**
+     * List transactions
+     * @param {string} accountId - The account id to check transactions in
+     * @param {boolean} [expanded=false] - Whether the details for merchant are expanded or not
+     * @param {object} [query={}] - Can be used to add pagination. https://monzo.com/docs/#pagination
+     * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    transactions(accountId, expanded = false, query = {}) {
+        if (expanded) {
+            query['expand[]'] = 'merchant';
+        }
+        return this.makeRequest('GET', `transactions?${qs.stringify(query)}`);
+    }
+
+    /**
+     * Annotate transaction.
+     * You may store your own key-value annotations against a transaction in its metadata.
+     * @param {string} transactionId - The transaction id to add the annotation
+     * @param {object} metadata - The key values pairs to store in the metadata.
+     *                            Include each key you would like to modify. To delete a key, set its value to an empty string
+     * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    annotate(transactionId, metadata = {}) {
+        const formData = {};
+        Object.keys(metadata).forEach((k) => {
+            formData[`metadata[${k}]`] = metadata[k];
+        });
+        return this.makeRequest('PATCH', `transactions/${transactionId}`, formData);
+    }
+
+    /**
+     * Creates a new feed item on the user’s feed.
+     * Check https://monzo.com/docs/#feed-items for the params details
+     * @param {string} accountId - The account id to add the feed item
+     * @param {string} [url] - A URL to open when the feed item is tapped. If no URL is provided,
+     *                         the app will display a fallback view based on the title &amp; body.
+     * @param {string} [type=basic] - Type of feed item.
+     * @param {object} [params={}] - A map of parameters which vary based on type.
+     * &lt;br/>basic type e.g. &lt;br/>
+     *                               {                                               &lt;br/>
+     *     &amp;nbsp;                      title: 'My custom item',                      &lt;br/>
+     *     &amp;nbsp;                      image_url: 'www.example.com/image.png',       &lt;br/>
+     *     &amp;nbsp;                      background_color: '#FCF1EE',                  &lt;br/>
+     *     &amp;nbsp;                      body_color: '#FCF1EE',                        &lt;br/>
+     *     &amp;nbsp;                      title_color: '#333',                          &lt;br/>
+     *     &amp;nbsp;                      body: 'Some body text to display'             &lt;br/>
+     *                               }
+     * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
+     *                                   or an Error if rejected.
+     */
+    feedItem(accountId, url, type = 'basic', params = {}) {
+        const formData = {
+            account_id: accountId,
+            type
+        };
+        Object.keys(params).forEach((k) => {
+            formData[`params[${k}]`] = params[k];
+        });
+        if (url) {
+            formData.url = url;
+        }
+        return this.makeRequest('POST', 'feed', formData);
     }
 
     /**
      * Makes any request to the Monzo API
-     * @param {string} requestType - Can be 'GET' or 'POST'
+     * @param {string} requestType - Can be 'GET', 'POST' or 'PATCH'
      * @param {string} requestEndpoint - The path of the API url. e.g. 'ping/whoami'
      * @param {object} requestData - Any data that needs to be sent to the server
      * @param {boolean} [useBearer=true] - Whether to insert the accessToken into the request header or not
@@ -251,14 +342,12 @@ class MonzoApi {
      */
     makeRequest(requestType, requestEndpoint, requestData, useBearer = true) {
         return new Promise((resolve, reject) => {
-            let req;
             const url = `${API_URL}${requestEndpoint}`;
+            const req = request[requestType.toLowerCase()](url);
             if (requestType === 'GET') {
-                req = request.get(url);
                 req.set('Content-type', 'application/json');
             }
-            if (requestType === 'POST') {
-                req = request.post(url);
+            if (['POST', 'PATCH'].indexOf(requestType) > -1) {
                 req.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
             }
             if (useBearer) {
@@ -295,7 +384,7 @@ export default MonzoApi;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Wed Oct 26 2016 11:10:36 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Wed Oct 26 2016 12:40:38 GMT+0100 (BST)
 </footer>
 
 <script> prettyPrint(); </script>
