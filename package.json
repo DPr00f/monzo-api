@@ -6,7 +6,8 @@
   "jsnext:main": "src/index.js",
   "scripts": {
     "dist": "babel src --out-dir dist",
-    "prepublish": "npm run dist"
+    "prepublish": "npm run dist",
+    "jsdoc": "jsdoc src/index.js -d ./docs"
   },
   "author": "Joao Lopes <jocolopes@gmail.com> (http://joaolopes.info)",
   "license": "MIT",
@@ -17,5 +18,8 @@
     "babel-preset-es2015": "^6.18.0",
     "qs": "^6.3.0",
     "superagent": "^2.3.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.4.2"
   }
 }
