@@ -49,21 +49,21 @@ monzoApi.authenticate(code, 'exampleStateToken')
     * [.code](#MonzoApi+code) ⇒ <code>string</code>
     * [.stateToken](#MonzoApi+stateToken) ⇒ <code>string</code>
     * [.authorizationUrl](#MonzoApi+authorizationUrl) ⇒ <code>string</code>
-    * [.authenticate(code, stateToken)](#MonzoApi+authenticate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.authenticate(code, stateToken, [verifyStateToken])](#MonzoApi+authenticate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.refreshAccess()](#MonzoApi+refreshAccess) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.ping()](#MonzoApi+ping) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.accounts()](#MonzoApi+accounts) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.balance(accountId)](#MonzoApi+balance) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.transaction(transactionId, [expanded])](#MonzoApi+transaction) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.transactions(accountId, [expanded], [query])](#MonzoApi+transactions) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.annotate(transactionId, metadata)](#MonzoApi+annotate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.feedItem(accountId, [url], [type], [params])](#MonzoApi+feedItem) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.registerWebhook(accountId, url)](#MonzoApi+registerWebhook) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.webhooks(accountId)](#MonzoApi+webhooks) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.deleteWebhook(webhookId)](#MonzoApi+deleteWebhook) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.ping([acessToken])](#MonzoApi+ping) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.accounts([acessToken])](#MonzoApi+accounts) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.balance(accountId, [acessToken])](#MonzoApi+balance) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.transaction(transactionId, [expanded], [acessToken])](#MonzoApi+transaction) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.transactions(accountId, [expanded], [query], [acessToken])](#MonzoApi+transactions) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.annotate(transactionId, metadata, [acessToken])](#MonzoApi+annotate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.feedItem(accountId, [url], [type], [params], [acessToken])](#MonzoApi+feedItem) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.registerWebhook(accountId, url, [acessToken])](#MonzoApi+registerWebhook) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.webhooks(accountId, [acessToken])](#MonzoApi+webhooks) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.deleteWebhook(webhookId, [acessToken])](#MonzoApi+deleteWebhook) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.uploadImage(file, fileName, fileType)](#MonzoApi+uploadImage) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.registerAttachment(externalId, fileUrl, fileType)](#MonzoApi+registerAttachment) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.deregisterAttachment(attachmentId)](#MonzoApi+deregisterAttachment) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.registerAttachment(externalId, fileUrl, fileType, [acessToken])](#MonzoApi+registerAttachment) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.deregisterAttachment(attachmentId, [acessToken])](#MonzoApi+deregisterAttachment) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.makeRequest(requestType, requestEndpoint, requestData, [useBearer])](#MonzoApi+makeRequest) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 
 <a name="new_MonzoApi_new"></a>
@@ -193,7 +193,7 @@ The user needs to be redirected to this url in order to authenticate
 **Returns**: <code>string</code> - The authorizationUrl value.
 <a name="MonzoApi+authenticate"></a>
 
-### monzoApi.authenticate(code, stateToken) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.authenticate(code, stateToken, [verifyStateToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Authenticate the user given the code and the stateToken
 found in the query string of the redirectUrl
 
@@ -201,10 +201,11 @@ found in the query string of the redirectUrl
 **Returns**: <code>Promise.&lt;object, Error&gt;</code> - A promise that returns an object if resolved,
                                   or an Error if rejected.
 
-| Param | Type | Description |
-| --- | --- | --- |
-| code | <code>string</code> | The code value. |
-| stateToken | <code>string</code> | The state token value. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| code | <code>string</code> |  | The code value. |
+| stateToken | <code>string</code> |  | The state token value. |
+| [verifyStateToken] | <code>string</code> | <code>false</code> | Use this token instead of the one registered in the API. |
 
 <a name="MonzoApi+refreshAccess"></a>
 
@@ -216,23 +217,33 @@ Refreshes the user access token using the refresh one
                                   or an Error if rejected.
 <a name="MonzoApi+ping"></a>
 
-### monzoApi.ping() ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.ping([acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Pings the API to check whether everything is correct
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
 **Returns**: <code>Promise.&lt;object, Error&gt;</code> - A promise that returns an object if resolved,
                                   or an Error if rejected.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
+
 <a name="MonzoApi+accounts"></a>
 
-### monzoApi.accounts() ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.accounts([acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Returns the accounts for the authenticated user
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
 **Returns**: <code>Promise.&lt;object, Error&gt;</code> - A promise that returns an object if resolved,
                                   or an Error if rejected.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
+
 <a name="MonzoApi+balance"></a>
 
-### monzoApi.balance(accountId) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.balance(accountId, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Reads the balance
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -242,10 +253,11 @@ Reads the balance
 | Param | Type | Description |
 | --- | --- | --- |
 | accountId | <code>string</code> | The account id to check the balance in. |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+transaction"></a>
 
-### monzoApi.transaction(transactionId, [expanded]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.transaction(transactionId, [expanded], [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Returns an individual transaction, fetched by its id.
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -256,10 +268,11 @@ Returns an individual transaction, fetched by its id.
 | --- | --- | --- | --- |
 | transactionId | <code>string</code> |  | The transaction id to check details in |
 | [expanded] | <code>boolean</code> | <code>true</code> | Whether the details for merchant are expanded or not |
+| [acessToken] | <code>string</code> |  | The accessToken for the request. |
 
 <a name="MonzoApi+transactions"></a>
 
-### monzoApi.transactions(accountId, [expanded], [query]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.transactions(accountId, [expanded], [query], [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 List transactions
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -271,10 +284,11 @@ List transactions
 | accountId | <code>string</code> |  | The account id to check transactions in |
 | [expanded] | <code>boolean</code> | <code>false</code> | Whether the details for merchant are expanded or not |
 | [query] | <code>object</code> | <code>{}</code> | Can be used to add pagination. https://monzo.com/docs/#pagination |
+| [acessToken] | <code>string</code> |  | The accessToken for the request. |
 
 <a name="MonzoApi+annotate"></a>
 
-### monzoApi.annotate(transactionId, metadata) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.annotate(transactionId, metadata, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Annotate transaction.
 You may store your own key-value annotations against a transaction in its metadata.
 
@@ -286,10 +300,11 @@ You may store your own key-value annotations against a transaction in its metada
 | --- | --- | --- |
 | transactionId | <code>string</code> | The transaction id to add the annotation |
 | metadata | <code>object</code> | The key values pairs to store in the metadata.                            Include each key you would like to modify. To delete a key, set its value to an empty string |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+feedItem"></a>
 
-### monzoApi.feedItem(accountId, [url], [type], [params]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.feedItem(accountId, [url], [type], [params], [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Creates a new feed item on the user’s feed.
 Check https://monzo.com/docs/#feed-items for the params details
 
@@ -303,10 +318,11 @@ Check https://monzo.com/docs/#feed-items for the params details
 | [url] | <code>string</code> |  | A URL to open when the feed item is tapped. If no URL is provided,                         the app will display a fallback view based on the title & body. |
 | [type] | <code>string</code> | <code>&quot;basic&quot;</code> | Type of feed item. |
 | [params] | <code>object</code> | <code>{}</code> | A map of parameters which vary based on type. <br/>basic type e.g. <br/>                               {                                               <br/>     &nbsp;                      title: 'My custom item',                      <br/>     &nbsp;                      image_url: 'www.example.com/image.png',       <br/>     &nbsp;                      background_color: '#FCF1EE',                  <br/>     &nbsp;                      body_color: '#FCF1EE',                        <br/>     &nbsp;                      title_color: '#333',                          <br/>     &nbsp;                      body: 'Some body text to display'             <br/>                               } |
+| [acessToken] | <code>string</code> |  | The accessToken for the request. |
 
 <a name="MonzoApi+registerWebhook"></a>
 
-### monzoApi.registerWebhook(accountId, url) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.registerWebhook(accountId, url, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Webhooks allow your application to receive real-time, push notification of events in an account.
 Each time a matching event occurs, monzo will make a POST call to the URL you provide.
 If the call fails, monzo will retry up to a maximum of 5 attempts, with exponential backoff.
@@ -319,10 +335,11 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
 | --- | --- | --- |
 | accountId | <code>string</code> | The account id to add the webhook to |
 | url | <code>string</code> | The url to send notifications to |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+webhooks"></a>
 
-### monzoApi.webhooks(accountId) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.webhooks(accountId, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 List the webhooks your application has registered on an account.
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -332,10 +349,11 @@ List the webhooks your application has registered on an account.
 | Param | Type | Description |
 | --- | --- | --- |
 | accountId | <code>string</code> | The account to list registered webhooks for |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+deleteWebhook"></a>
 
-### monzoApi.deleteWebhook(webhookId) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.deleteWebhook(webhookId, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Delete a webhook
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -345,6 +363,7 @@ Delete a webhook
 | Param | Type | Description |
 | --- | --- | --- |
 | webhookId | <code>string</code> | The webhook to delete |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+uploadImage"></a>
 
@@ -364,7 +383,7 @@ Will try to gzip the contents before uploading it
 
 <a name="MonzoApi+registerAttachment"></a>
 
-### monzoApi.registerAttachment(externalId, fileUrl, fileType) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.registerAttachment(externalId, fileUrl, fileType, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Register attachment
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -376,10 +395,11 @@ Register attachment
 | externalId | <code>string</code> | The id of the transaction to associate the attachment with. |
 | fileUrl | <code>string</code> | The URL of the uploaded attachment. |
 | fileType | <code>string</code> | The content type of the attachment. e.g. "image/png" |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+deregisterAttachment"></a>
 
-### monzoApi.deregisterAttachment(attachmentId) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.deregisterAttachment(attachmentId, [acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Deregister attachment
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
@@ -389,6 +409,7 @@ Deregister attachment
 | Param | Type | Description |
 | --- | --- | --- |
 | attachmentId | <code>string</code> | The id of the attachment to deregister. |
+| [acessToken] | <code>string</code> | The accessToken for the request. |
 
 <a name="MonzoApi+makeRequest"></a>
 
@@ -405,3 +426,4 @@ Makes any request to the Monzo API
 | requestEndpoint | <code>string</code> |  | The path of the API url. e.g. 'ping/whoami' |
 | requestData | <code>object</code> |  | Any data that needs to be sent to the server |
 | [useBearer] | <code>boolean</code> | <code>true</code> | Whether to insert the accessToken into the request header or not |
+
