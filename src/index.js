@@ -163,6 +163,11 @@ class MonzoApi {
         return this._stateToken;
     }
 
+
+    /**
+     * Set the stateToken
+     * @return {string} The stateToken value.
+     */
     set stateToken(value) {
         this._stateToken = value;
     }

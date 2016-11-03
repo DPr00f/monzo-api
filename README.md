@@ -48,6 +48,7 @@ monzoApi.authenticate(code, 'exampleStateToken')
     * [.accessToken](#MonzoApi+accessToken) ⇒ <code>string</code>
     * [.code](#MonzoApi+code) ⇒ <code>string</code>
     * [.stateToken](#MonzoApi+stateToken) ⇒ <code>string</code>
+    * [.stateToken](#MonzoApi+stateToken) ⇒ <code>string</code>
     * [.authorizationUrl](#MonzoApi+authorizationUrl) ⇒ <code>string</code>
     * [.generateStateToken()](#MonzoApi+generateStateToken) ⇒ <code>String</code>
     * [.authenticate(code, stateToken, [verifyStateToken])](#MonzoApi+authenticate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
@@ -181,6 +182,13 @@ Get the code value. It will be set when authenticate method gets called
 Get the stateToken value.
 Value that will be matched against the one provided when a user authenticates.
 The values must match otherwise the authentication won't proceed
+
+**Kind**: instance property of <code>[MonzoApi](#MonzoApi)</code>
+**Returns**: <code>string</code> - The stateToken value.
+<a name="MonzoApi+stateToken"></a>
+
+### monzoApi.stateToken ⇒ <code>string</code>
+Set the stateToken
 
 **Kind**: instance property of <code>[MonzoApi](#MonzoApi)</code>
 **Returns**: <code>string</code> - The stateToken value.
