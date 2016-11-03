@@ -1029,7 +1029,7 @@ The values must match otherwise the authentication won't proceed
 
     
 
-    <h4 class="name" id="accounts"><span class="type-signature"></span>accounts<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="accounts"><span class="type-signature"></span>accounts<span class="signature">(acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -1045,6 +1045,67 @@ The values must match otherwise the authentication won't proceed
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -1080,7 +1141,7 @@ The values must match otherwise the authentication won't proceed
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line270">line 270</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line274">line 274</a>
     </li></ul></dd>
     
 
@@ -1134,7 +1195,7 @@ The values must match otherwise the authentication won't proceed
 
     
 
-    <h4 class="name" id="annotate"><span class="type-signature"></span>annotate<span class="signature">(transactionId, metadata)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="annotate"><span class="type-signature"></span>annotate<span class="signature">(transactionId, metadata, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -1166,6 +1227,8 @@ You may store your own key-value annotations against a transaction in its metada
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1191,6 +1254,14 @@ You may store your own key-value annotations against a transaction in its metada
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -1214,11 +1285,52 @@ You may store your own key-value annotations against a transaction in its metada
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The key values pairs to store in the metadata.
                            Include each key you would like to modify. To delete a key, set its value to an empty string</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -1259,7 +1371,7 @@ You may store your own key-value annotations against a transaction in its metada
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line323">line 323</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line331">line 331</a>
     </li></ul></dd>
     
 
@@ -1313,7 +1425,7 @@ You may store your own key-value annotations against a transaction in its metada
 
     
 
-    <h4 class="name" id="authenticate"><span class="type-signature"></span>authenticate<span class="signature">(code, stateToken)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="authenticate"><span class="type-signature"></span>authenticate<span class="signature">(code, stateToken, verifyStateToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -1345,7 +1457,11 @@ found in the query string of the redirectUrl
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
+        
+        <th>Default</th>
         
 
         <th class="last">Description</th>
@@ -1370,7 +1486,19 @@ found in the query string of the redirectUrl
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">The code value.</td>
@@ -1393,10 +1521,61 @@ found in the query string of the redirectUrl
             </td>
 
             
+                <td class="attributes">
+                
 
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
             
 
             <td class="description last">The state token value.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>verifyStateToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last">Use this token instead of the one registered in the API.</td>
         </tr>
 
     
@@ -1437,7 +1616,7 @@ found in the query string of the redirectUrl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line200">line 200</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line201">line 201</a>
     </li></ul></dd>
     
 
@@ -1491,7 +1670,7 @@ found in the query string of the redirectUrl
 
     
 
-    <h4 class="name" id="balance"><span class="type-signature"></span>balance<span class="signature">(accountId)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="balance"><span class="type-signature"></span>balance<span class="signature">(accountId, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -1522,6 +1701,8 @@ found in the query string of the redirectUrl
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1547,10 +1728,51 @@ found in the query string of the redirectUrl
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The account id to check the balance in.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -1591,7 +1813,7 @@ found in the query string of the redirectUrl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line280">line 280</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line285">line 285</a>
     </li></ul></dd>
     
 
@@ -1645,7 +1867,7 @@ found in the query string of the redirectUrl
 
     
 
-    <h4 class="name" id="deleteWebhook"><span class="type-signature"></span>deleteWebhook<span class="signature">(webhookId)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="deleteWebhook"><span class="type-signature"></span>deleteWebhook<span class="signature">(webhookId, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -1676,6 +1898,8 @@ found in the query string of the redirectUrl
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1701,10 +1925,51 @@ found in the query string of the redirectUrl
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The webhook to delete</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -1745,7 +2010,7 @@ found in the query string of the redirectUrl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line401">line 401</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line413">line 413</a>
     </li></ul></dd>
     
 
@@ -1799,7 +2064,7 @@ found in the query string of the redirectUrl
 
     
 
-    <h4 class="name" id="deregisterAttachment"><span class="type-signature"></span>deregisterAttachment<span class="signature">(attachmentId)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="deregisterAttachment"><span class="type-signature"></span>deregisterAttachment<span class="signature">(attachmentId, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -1830,6 +2095,8 @@ found in the query string of the redirectUrl
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -1855,10 +2122,51 @@ found in the query string of the redirectUrl
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The id of the attachment to deregister.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -1899,7 +2207,7 @@ found in the query string of the redirectUrl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line474">line 474</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line488">line 488</a>
     </li></ul></dd>
     
 
@@ -1953,7 +2261,7 @@ found in the query string of the redirectUrl
 
     
 
-    <h4 class="name" id="feedItem"><span class="type-signature"></span>feedItem<span class="signature">(accountId, url<span class="signature-attributes">opt</span>, type<span class="signature-attributes">opt</span>, params<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="feedItem"><span class="type-signature"></span>feedItem<span class="signature">(accountId, url<span class="signature-attributes">opt</span>, type<span class="signature-attributes">opt</span>, params<span class="signature-attributes">opt</span>, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -2158,6 +2466,43 @@ Check https://monzo.com/docs/#feed-items for the params details
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The accessToken for the request.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -2195,7 +2540,7 @@ Check https://monzo.com/docs/#feed-items for the params details
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line351">line 351</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line360">line 360</a>
     </li></ul></dd>
     
 
@@ -2474,7 +2819,7 @@ Check https://monzo.com/docs/#feed-items for the params details
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line487">line 487</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line501">line 501</a>
     </li></ul></dd>
     
 
@@ -2528,7 +2873,7 @@ Check https://monzo.com/docs/#feed-items for the params details
 
     
 
-    <h4 class="name" id="ping"><span class="type-signature"></span>ping<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="ping"><span class="type-signature"></span>ping<span class="signature">(acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -2544,6 +2889,67 @@ Check https://monzo.com/docs/#feed-items for the params details
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -2579,7 +2985,7 @@ Check https://monzo.com/docs/#feed-items for the params details
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line261">line 261</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -2684,7 +3090,7 @@ Check https://monzo.com/docs/#feed-items for the params details
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line233">line 233</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line235">line 235</a>
     </li></ul></dd>
     
 
@@ -2738,7 +3144,7 @@ Check https://monzo.com/docs/#feed-items for the params details
 
     
 
-    <h4 class="name" id="registerAttachment"><span class="type-signature"></span>registerAttachment<span class="signature">(externalId, fileUrl, fileType)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="registerAttachment"><span class="type-signature"></span>registerAttachment<span class="signature">(externalId, fileUrl, fileType, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -2769,6 +3175,8 @@ Check https://monzo.com/docs/#feed-items for the params details
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -2794,6 +3202,14 @@ Check https://monzo.com/docs/#feed-items for the params details
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -2816,6 +3232,14 @@ Check https://monzo.com/docs/#feed-items for the params details
             
             </td>
 
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -2840,10 +3264,51 @@ Check https://monzo.com/docs/#feed-items for the params details
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The content type of the attachment. e.g. "image/png"</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -2884,7 +3349,7 @@ Check https://monzo.com/docs/#feed-items for the params details
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line458">line 458</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line471">line 471</a>
     </li></ul></dd>
     
 
@@ -2938,7 +3403,7 @@ Check https://monzo.com/docs/#feed-items for the params details
 
     
 
-    <h4 class="name" id="registerWebhook"><span class="type-signature"></span>registerWebhook<span class="signature">(accountId, url)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="registerWebhook"><span class="type-signature"></span>registerWebhook<span class="signature">(accountId, url, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -2971,6 +3436,8 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -2996,6 +3463,14 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
@@ -3019,10 +3494,51 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The url to send notifications to</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -3063,7 +3579,7 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line374">line 374</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line384">line 384</a>
     </li></ul></dd>
     
 
@@ -3117,7 +3633,7 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
 
     
 
-    <h4 class="name" id="transaction"><span class="type-signature"></span>transaction<span class="signature">(transactionId, expanded<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="transaction"><span class="type-signature"></span>transaction<span class="signature">(transactionId, expanded<span class="signature-attributes">opt</span>, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -3235,6 +3751,43 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The accessToken for the request.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -3272,7 +3825,7 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line291">line 291</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line297">line 297</a>
     </li></ul></dd>
     
 
@@ -3326,7 +3879,7 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
 
     
 
-    <h4 class="name" id="transactions"><span class="type-signature"></span>transactions<span class="signature">(accountId, expanded<span class="signature-attributes">opt</span>, query<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="transactions"><span class="type-signature"></span>transactions<span class="signature">(accountId, expanded<span class="signature-attributes">opt</span>, query<span class="signature-attributes">opt</span>, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -3483,6 +4036,43 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
         </tr>
 
     
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last">The accessToken for the request.</td>
+        </tr>
+
+    
     </tbody>
 </table>
 
@@ -3520,7 +4110,7 @@ If the call fails, monzo will retry up to a maximum of 5 attempts, with exponent
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line307">line 307</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line314">line 314</a>
     </li></ul></dd>
     
 
@@ -3724,7 +4314,7 @@ Will try to gzip the contents before uploading it
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line414">line 414</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line426">line 426</a>
     </li></ul></dd>
     
 
@@ -3778,7 +4368,7 @@ Will try to gzip the contents before uploading it
 
     
 
-    <h4 class="name" id="webhooks"><span class="type-signature"></span>webhooks<span class="signature">(accountId)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
+    <h4 class="name" id="webhooks"><span class="type-signature"></span>webhooks<span class="signature">(accountId, acessToken<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;object, Error>}</span></h4>
 
     
 
@@ -3809,6 +4399,8 @@ Will try to gzip the contents before uploading it
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -3834,10 +4426,51 @@ Will try to gzip the contents before uploading it
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">The account to list registered webhooks for</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>acessToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The accessToken for the request.</td>
         </tr>
 
     
@@ -3878,7 +4511,7 @@ Will try to gzip the contents before uploading it
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line388">line 388</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line399">line 399</a>
     </li></ul></dd>
     
 
@@ -3949,7 +4582,7 @@ Will try to gzip the contents before uploading it
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Wed Oct 26 2016 16:19:56 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Thu Nov 03 2016 14:18:18 GMT+0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>

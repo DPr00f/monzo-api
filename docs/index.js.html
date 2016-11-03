@@ -222,12 +222,14 @@ class MonzoApi {
      * found in the query string of the redirectUrl
      * @param {string} code - The code value.
      * @param {string} stateToken - The state token value.
+     * @param {string} [verifyStateToken] - Use this token instead of the one registered in the API.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    authenticate(code, stateToken) {
+    authenticate(code, stateToken, verifyStateToken = false) {
         return new Promise((resolve, reject) => {
-            if (stateToken !== this._stateToken) {
+            verifyStateToken = verifyStateToken || this._stateToken;
+            if (stateToken !== verifyStateToken) {
                 throw new Error('The provided stateToken differs from the original one.');
             }
             const data = {
@@ -283,45 +285,49 @@ class MonzoApi {
 
     /**
      * Pings the API to check whether everything is correct
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    ping() {
-        return this.makeRequest('GET', 'ping/whoami');
+    ping(accessToken) {
+        return this.makeRequest('GET', 'ping/whoami', false, true, accessToken);
     }
 
     /**
      * Returns the accounts for the authenticated user
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    accounts() {
-        return this.makeRequest('GET', 'accounts');
+    accounts(accessToken) {
+        return this.makeRequest('GET', 'accounts', false, true, accessToken);
     }
 
     /**
      * Reads the balance
      * @param {string} accountId - The account id to check the balance in.
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    balance(accountId) {
-        return this.makeRequest('GET', 'balance', { account_id: accountId });
+    balance(accountId, accessToken) {
+        return this.makeRequest('GET', 'balance', { account_id: accountId }, true, accessToken);
     }
 
     /**
      * Returns an individual transaction, fetched by its id.
      * @param {string} transactionId - The transaction id to check details in
      * @param {boolean} [expanded=true] - Whether the details for merchant are expanded or not
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    transaction(transactionId, expanded = true) {
+    transaction(transactionId, expanded = true, accessToken) {
         const query = {};
         if (expanded) {
             query['expand[]'] = 'merchant';
         }
-        return this.makeRequest('GET', `transactions/${transactionId}?${qs.stringify(query)}`);
+        return this.makeRequest('GET', `transactions/${transactionId}?${qs.stringify(query)}`, false, true, accessToken);
     }
 
     /**
@@ -329,14 +335,15 @@ class MonzoApi {
      * @param {string} accountId - The account id to check transactions in
      * @param {boolean} [expanded=false] - Whether the details for merchant are expanded or not
      * @param {object} [query={}] - Can be used to add pagination. https://monzo.com/docs/#pagination
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    transactions(accountId, expanded = false, query = {}) {
+    transactions(accountId, expanded = false, query = {}, accessToken) {
         if (expanded) {
             query['expand[]'] = 'merchant';
         }
-        return this.makeRequest('GET', `transactions?${qs.stringify(query)}`);
+        return this.makeRequest('GET', `transactions?${qs.stringify(query)}`, false, true, accessToken);
     }
 
     /**
@@ -345,15 +352,16 @@ class MonzoApi {
      * @param {string} transactionId - The transaction id to add the annotation
      * @param {object} metadata - The key values pairs to store in the metadata.
      *                            Include each key you would like to modify. To delete a key, set its value to an empty string
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    annotate(transactionId, metadata = {}) {
+    annotate(transactionId, metadata = {}, accessToken) {
         const formData = {};
         Object.keys(metadata).forEach((k) => {
             formData[`metadata[${k}]`] = metadata[k];
         });
-        return this.makeRequest('PATCH', `transactions/${transactionId}`, formData);
+        return this.makeRequest('PATCH', `transactions/${transactionId}`, formData, true, accessToken);
     }
 
     /**
@@ -373,10 +381,11 @@ class MonzoApi {
      *     &amp;nbsp;                      title_color: '#333',                          &lt;br/>
      *     &amp;nbsp;                      body: 'Some body text to display'             &lt;br/>
      *                               }
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    feedItem(accountId, url, type = 'basic', params = {}) {
+    feedItem(accountId, url, type = 'basic', params = {}, accessToken) {
         const formData = {
             account_id: accountId,
             type
@@ -387,7 +396,7 @@ class MonzoApi {
         if (url) {
             formData.url = url;
         }
-        return this.makeRequest('POST', 'feed', formData);
+        return this.makeRequest('POST', 'feed', formData, true, accessToken);
     }
 
     /**
@@ -396,38 +405,41 @@ class MonzoApi {
      * If the call fails, monzo will retry up to a maximum of 5 attempts, with exponential backoff.
      * @param {string} accountId - The account id to add the webhook to
      * @param {string} url - The url to send notifications to
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    registerWebhook(accountId, url) {
+    registerWebhook(accountId, url, accessToken) {
         const formData = {
             account_id: accountId,
             url
         };
-        return this.makeRequest('POST', 'webhooks', formData);
+        return this.makeRequest('POST', 'webhooks', formData, true, accessToken);
     }
 
     /**
      * List the webhooks your application has registered on an account.
      * @param {string} accountId - The account to list registered webhooks for
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    webhooks(accountId) {
+    webhooks(accountId, accessToken) {
         const formData = {
             account_id: accountId
         };
-        return this.makeRequest('GET', `webhooks?${qs.stringify(formData)}`);
+        return this.makeRequest('GET', `webhooks?${qs.stringify(formData)}`, false, true, accessToken);
     }
 
     /**
      * Delete a webhook
      * @param {string} webhookId - The webhook to delete
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    deleteWebhook(webhookId) {
-        return this.makeRequest('DELETE', `webhooks/${webhookId}`);
+    deleteWebhook(webhookId, accessToken) {
+        return this.makeRequest('DELETE', `webhooks/${webhookId}`, false, true, accessToken);
     }
 
     /**
@@ -480,27 +492,29 @@ class MonzoApi {
      * @param {string} externalId - The id of the transaction to associate the attachment with.
      * @param {string} fileUrl - The URL of the uploaded attachment.
      * @param {string} fileType - The content type of the attachment. e.g. "image/png"
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    registerAttachment(externalId, fileUrl, fileType) {
+    registerAttachment(externalId, fileUrl, fileType, accessToken) {
         const formData = {
             external_id: externalId,
             file_url: fileUrl,
             file_type: fileType
         };
-        return this.makeRequest('POST', 'attachment/register', formData);
+        return this.makeRequest('POST', 'attachment/register', formData, true, accessToken);
     }
 
 
     /**
      * Deregister attachment
      * @param {string} attachmentId - The id of the attachment to deregister.
+     * @param {string} [acessToken] - The accessToken for the request.
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    deregisterAttachment(attachmentId) {
-        return this.makeRequest('POST', 'attachment/deregister', { id: attachmentId });
+    deregisterAttachment(attachmentId, accessToken) {
+        return this.makeRequest('POST', 'attachment/deregister', { id: attachmentId }, true, accessToken);
     }
 
     /**
@@ -512,7 +526,8 @@ class MonzoApi {
      * @return {Promise.&lt;object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    makeRequest(requestType, requestEndpoint, requestData, useBearer = true) {
+    makeRequest(requestType, requestEndpoint, requestData, useBearer = true, accessToken = false) {
+        accessToken = accessToken || this.accessToken;
         return new Promise((resolve, reject) => {
             const url = `${API_URL}${requestEndpoint}`;
             const req = request[REQUEST_TO_METHOD[requestType]](url);
@@ -523,7 +538,7 @@ class MonzoApi {
                 req.set('Content-Type', 'application/x-www-form-urlencoded; charset=utf-8');
             }
             if (useBearer) {
-                req.set('Authorization', `Bearer ${this.accessToken}`);
+                req.set('Authorization', `Bearer ${accessToken}`);
             }
             if (requestData) {
                 req.send(requestData);
@@ -556,7 +571,7 @@ export default MonzoApi;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Wed Oct 26 2016 16:19:56 GMT+0100 (BST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Thu Nov 03 2016 14:18:18 GMT+0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>
