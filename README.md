@@ -49,6 +49,7 @@ monzoApi.authenticate(code, 'exampleStateToken')
     * [.code](#MonzoApi+code) ⇒ <code>string</code>
     * [.stateToken](#MonzoApi+stateToken) ⇒ <code>string</code>
     * [.authorizationUrl](#MonzoApi+authorizationUrl) ⇒ <code>string</code>
+    * [.generateStateToken()](#MonzoApi+generateStateToken) ⇒ <code>String</code>
     * [.authenticate(code, stateToken, [verifyStateToken])](#MonzoApi+authenticate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.refreshAccess()](#MonzoApi+refreshAccess) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.ping([acessToken])](#MonzoApi+ping) ⇒ <code>Promise.&lt;object, Error&gt;</code>
@@ -191,6 +192,13 @@ The user needs to be redirected to this url in order to authenticate
 
 **Kind**: instance property of <code>[MonzoApi](#MonzoApi)</code>
 **Returns**: <code>string</code> - The authorizationUrl value.
+<a name="MonzoApi+generateStateToken"></a>
+
+### monzoApi.generateStateToken() ⇒ <code>String</code>
+Create a state token that gets send on the authorizationUrl
+
+**Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
+**Returns**: <code>String</code> - The token value that was stored and needs to be compared on authorization
 <a name="MonzoApi+authenticate"></a>
 
 ### monzoApi.authenticate(code, stateToken, [verifyStateToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
@@ -426,4 +434,3 @@ Makes any request to the Monzo API
 | requestEndpoint | <code>string</code> |  | The path of the API url. e.g. 'ping/whoami' |
 | requestData | <code>object</code> |  | Any data that needs to be sent to the server |
 | [useBearer] | <code>boolean</code> | <code>true</code> | Whether to insert the accessToken into the request header or not |
-
