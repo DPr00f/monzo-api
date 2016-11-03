@@ -160,8 +160,11 @@ class MonzoApi {
      * @return {string} The stateToken value.
      */
     get stateToken() {
-        this._stateToken = Math.random().toString(36).replace(/[^a-z]+/g, '');
         return this._stateToken;
+    }
+
+    set stateToken(value) {
+        this._stateToken = value;
     }
 
     /**
@@ -174,7 +177,7 @@ class MonzoApi {
             client_id: this.clientId,
             redirect_uri: this.redirectUrl,
             response_type: 'code',
-            state: this.stateToken
+            state: this.generateStateToken()
         };
         return `${AUTH_URL}?${qs.stringify(data)}`;
     }
@@ -187,6 +190,15 @@ class MonzoApi {
     constructor(clientId, clientSecret) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
+    }
+
+    /**
+     * Create a state token that gets send on the authorizationUrl
+     * @return {String} The token value that was stored and needs to be compared on authorization
+     */
+    generateStateToken() {
+        this.stateToken = Math.random().toString(36).replace(/[^a-z]+/g, '');
+        return this.stateToken;
     }
 
     /**
