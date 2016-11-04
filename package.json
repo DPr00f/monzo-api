@@ -1,6 +1,6 @@
 {
   "name": "monzo-api",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Easy interaction with monzo-api",
   "main": "dist/index.js",
   "jsnext:main": "src/index.js",
