@@ -9,6 +9,10 @@
     "prepublish": "npm run dist",
     "jsdoc": "jsdoc src/index.js -d ./docs"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DPr00f/monzo-api"
+  },
   "author": "Joao Lopes <jocolopes@gmail.com> (http://joaolopes.info)",
   "license": "MIT",
   "dependencies": {
