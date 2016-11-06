@@ -246,16 +246,17 @@ class MonzoApi {
 
     /**
      * Refreshes the user access token using the refresh one
+     * @param {string} [refreshToken] - Token to refresh the access
      * @return {Promise.<object, Error>} A promise that returns an object if resolved,
      *                                   or an Error if rejected.
      */
-    refreshAccess() {
+    refreshAccess(refreshToken) {
         return new Promise((resolve, reject) => {
             const data = {
                 grant_type: 'refresh_token',
                 client_id: this.clientId,
                 client_secret: this.clientSecret,
-                refresh_token: this.refreshToken
+                refresh_token: refreshToken || this.refreshToken
             };
 
             this.makeRequest('POST', 'oauth2/token', data, false)

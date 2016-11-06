@@ -52,7 +52,7 @@ monzoApi.authenticate(code, 'exampleStateToken')
     * [.authorizationUrl](#MonzoApi+authorizationUrl) ⇒ <code>string</code>
     * [.generateStateToken()](#MonzoApi+generateStateToken) ⇒ <code>String</code>
     * [.authenticate(code, stateToken, [verifyStateToken])](#MonzoApi+authenticate) ⇒ <code>Promise.&lt;object, Error&gt;</code>
-    * [.refreshAccess()](#MonzoApi+refreshAccess) ⇒ <code>Promise.&lt;object, Error&gt;</code>
+    * [.refreshAccess([refreshToken])](#MonzoApi+refreshAccess) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.ping([acessToken])](#MonzoApi+ping) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.accounts([acessToken])](#MonzoApi+accounts) ⇒ <code>Promise.&lt;object, Error&gt;</code>
     * [.balance(accountId, [acessToken])](#MonzoApi+balance) ⇒ <code>Promise.&lt;object, Error&gt;</code>
@@ -225,12 +225,17 @@ found in the query string of the redirectUrl
 
 <a name="MonzoApi+refreshAccess"></a>
 
-### monzoApi.refreshAccess() ⇒ <code>Promise.&lt;object, Error&gt;</code>
+### monzoApi.refreshAccess([refreshToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
 Refreshes the user access token using the refresh one
 
 **Kind**: instance method of <code>[MonzoApi](#MonzoApi)</code>
 **Returns**: <code>Promise.&lt;object, Error&gt;</code> - A promise that returns an object if resolved,
                                   or an Error if rejected.
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [refreshToken] | <code>string</code> | Token to refresh the access |
+
 <a name="MonzoApi+ping"></a>
 
 ### monzoApi.ping([acessToken]) ⇒ <code>Promise.&lt;object, Error&gt;</code>
