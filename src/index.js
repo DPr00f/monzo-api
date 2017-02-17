@@ -301,7 +301,8 @@ class MonzoApi {
      *                                   or an Error if rejected.
      */
     balance(accountId, accessToken) {
-        return this.makeRequest('GET', 'balance', { account_id: accountId }, true, accessToken);
+        const query = {account_id: accountId};
+        return this.makeRequest('GET', `balance?${qs.stringify(query)}`, false, true, accessToken);
     }
 
     /**
