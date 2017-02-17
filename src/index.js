@@ -331,6 +331,8 @@ class MonzoApi {
      *                                   or an Error if rejected.
      */
     transactions(accountId, expanded = false, query = {}, accessToken) {
+    	query.account_id = accountId;
+    	
         if (expanded) {
             query['expand[]'] = 'merchant';
         }
