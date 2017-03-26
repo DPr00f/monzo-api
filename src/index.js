@@ -126,7 +126,7 @@ class MonzoApi {
      * @return {string} The refreshToken value.
      */
     get refreshToken() {
-        this._refreshToken;
+        return this._refreshToken;
     }
 
     /**
@@ -332,7 +332,7 @@ class MonzoApi {
      */
     transactions(accountId, expanded = false, query = {}, accessToken) {
     	query.account_id = accountId;
-    	
+
         if (expanded) {
             query['expand[]'] = 'merchant';
         }
